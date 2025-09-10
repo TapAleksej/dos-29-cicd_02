@@ -1,0 +1,6 @@
+go.sum
+go.mod
+.git
+Dockerfile
+compose.yml
+README.md
