@@ -1,5 +1,3 @@
-def GIT_URL = "git@github.com:AnastasiyaGapochkina01/dos-29-cicd_02.git"
-
 pipeline {
   angent any
 
@@ -11,13 +9,14 @@ pipeline {
   environment {
     REPO = "anestesia01/dos-29"
     PRJ_NAME = "ecom"
+    GIT_URL = "git@github.com:AnastasiyaGapochkina01/dos-29-cicd_02.git"
   }
 
   stages {
     stage('Checkout Repo'){
       steps {
         script {
-          git branch: "${params.BRANCH}, url: "${GIT_URL}"
+          git branch: "${params.BRANCH}", url: "${env.GIT_URL}"
         }
       }
     }
