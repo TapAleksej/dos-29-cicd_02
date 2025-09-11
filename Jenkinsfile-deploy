@@ -1,0 +1,86 @@
+def remote = [:]
+pipeline {
+  agent any
+
+  parameters {
+    string(name: 'DOCKER_IMAGE', description: 'Image to deploy')
+  }
+
+  environment {
+    SERVER_NAME = "stage-host"
+    SERVER_HOST = "84.201.141.200"
+    TOKEN = credentials('tg-token')
+    CHAT_ID = 641041957
+    PRJ_DIR = "/var/www/ecom"
+    GIT_URL = "git@github.com:AnastasiyaGapochkina01/dos-29-cicd_02.git"
+  }
+
+  stages {
+    stage('Notify Start'){
+      steps {
+        script {
+          def message = """ {
+            "chat_id": "${env.CHAT_ID}",
+            "text": "Deploy ${params.DOCKER_IMAGE} started on ecom-stage",
+            "parse_mode": "HTML",
+            "disable_notification": false
+          }"""
+          sh """
+            curl -X POST -H 'Content-Type: application/json' -d '${message}' "https://api.telegram.org/bot${env.TOKEN}/sendMessage"
+          """
+        }
+      }
+    }
+
+    stage('Checkout Repo'){
+      steps {
+        script {
+          git branch: "main", url: "${env.GIT_URL}"
+        }
+      }
+    }
+
+    stage('Prepare Credentials'){
+      steps {
+        withCredentials([sshUserPrivateKey(credentialsId: 'jenkins-key', keyFileVariable: 'private_key', usernameVariable: 'username')]) {
+          script {
+            remote.name = "${env.SERVER_NAME}"
+            remote.host = "{env.SERVER_HOST}"
+            remote.user = "${username}"
+            remote.identity = readFile "${private_key}"
+            remote.allowAnyHosts = true
+          }
+        }
+      }
+    }
+
+    stage('Deploy') {
+      steps {
+        script {
+          sshCommand remote: remote, command: """
+            docker pull "${params.DOCKER_IMAGE}"
+            export API_IMAGE="${params.DOCKER_IMAGE}"
+            envsubst < compose.tmpl > compose.yml
+            docker compose up -d
+          """
+        }
+      }
+    }
+    stage('Notify finished') {
+      steps {
+        script {
+          def PUB_IP = sh(returnStdout: true, script: 'curl -s ip.me')
+          def msg = """ {
+            "chat_id": "${env.CHAT_ID}",
+            "text": "Deploy ${params.DOCKER_IMAGE} finished on ecom-stage; check ${PUB_IP}:8082",
+            "parse_mode": "HTML",
+            "disable_notification": false
+          }"""
+          sh """
+            curl -X POST -H 'Content-Type: application/json' -d '${msg}' "https://api.telegram.org/bot${env.TOKEN}/sendMessage"
+          """
+        }
+      }
+    }
+  }
+}
