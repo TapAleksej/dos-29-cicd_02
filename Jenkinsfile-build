@@ -1,5 +1,5 @@
 pipeline {
-  angent any
+  agent any
 
   parameters {
     booleanParam(name: 'RUN_DEPLOY', defaultValue: false, description: 'Run deploy job')
