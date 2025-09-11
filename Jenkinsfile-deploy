@@ -7,7 +7,8 @@ pipeline {
   }
 
   environment {
-    HOST = "84.201.141.200"
+    SERVER_HOST = "84.201.141.200"
+    SERVER_NAME = "stage-vm"
     TOKEN = credentials('tg-token')
     CHAT_ID = 641041957
     PRJ_DIR = "/var/www/ecom"
@@ -43,8 +44,8 @@ pipeline {
       steps {
         withCredentials([sshUserPrivateKey(credentialsId: 'jenkins-key', keyFileVariable: 'private_key', usernameVariable: 'username')]) {
           script {
-            remote.name = "${env.HOST}"
-            remote.host = "{env.HOST}"
+            remote.name = "${env.SERVER_NAME}"
+            remote.host = "${env.SERVER_HOST}"
             remote.user = "${username}"
             remote.identity = readFile "${private_key}"
             remote.allowAnyHosts = true
