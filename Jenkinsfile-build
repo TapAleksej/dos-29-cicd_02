@@ -37,6 +37,7 @@ pipeline {
           script {
             sh """
               docker login -u ${username} -p ${password}
+              docker push "${env.REPO}:${env.PRJ_NAME}-${BUILD_NUMBER}"
             """
           }
         }
