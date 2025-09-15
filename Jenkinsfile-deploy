@@ -7,8 +7,8 @@ pipeline {
   }
 
   environment {
-    SERVER_HOST = "158.160.6.216"
-    SERVER_NAME = "jenkins"
+    SERVER_HOST = "158.160.14.152"
+    SERVER_NAME = "deb12"
     TOKEN = credentials('tg-token')
     CHAT_ID = 421829411
     PRJ_DIR = "/var/www/ecom" 
