@@ -25,7 +25,9 @@ pipeline {
       steps {
         script {
           sh """
+            set -x;
             docker build -t "${env.REPO}:${env.PRJ_NAME}-${BUILD_NUMBER}" .
+            set +x;
           """
         }
     } 
