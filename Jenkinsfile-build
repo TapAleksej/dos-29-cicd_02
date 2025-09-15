@@ -7,9 +7,9 @@ pipeline {
   }
 
   environment {
-    REPO = "anestesia01/dos-29"
+    REPO = "alrexcom/dos-29"
     PRJ_NAME = "ecom"
-    GIT_URL = "git@github.com:AnastasiyaGapochkina01/dos-29-cicd_02.git"
+    GIT_URL = "git@github.com:TapAleksej/dos-29-cicd_02.git"
   }
 
   stages {
