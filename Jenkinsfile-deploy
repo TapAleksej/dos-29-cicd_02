@@ -11,7 +11,8 @@ pipeline {
     SERVER_NAME = "jenkins"
     TOKEN = credentials('tg-token')
     CHAT_ID = 421829411
-    PRJ_DIR = "/var/lib/jenkins/workspace/build/"    
+    PRJ_DIR = "/var/lib/jenkins/workspace/build/" 
+    DEST_DIR = "/home/jenkins/build"
     GIT_URL = "git@github.com:TapAleksej/dos-29-cicd_02.git"
   }
 
@@ -61,7 +62,7 @@ pipeline {
             set -x;
             docker pull "${params.DOCKER_IMAGE}"
             export API_IMAGE="${params.DOCKER_IMAGE}"
-            cd "${env.PRJ_DIR}"
+            cd "${env.DEST_DIR}"
             envsubst < compose.tmpl > compose.yml
             docker compose up -d
           """
