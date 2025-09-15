@@ -62,7 +62,7 @@ pipeline {
             docker pull "${params.DOCKER_IMAGE}"
             export API_IMAGE="${params.DOCKER_IMAGE}"
             cd "${env.PRJ_DIR}"
-            sudo envsubst < compose.tmpl > compose.yml
+            envsubst < compose.tmpl > compose.yml
             docker compose up -d
           """
         }
