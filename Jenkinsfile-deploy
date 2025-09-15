@@ -7,12 +7,12 @@ pipeline {
   }
 
   environment {
-    SERVER_HOST = "84.201.141.200"
-    SERVER_NAME = "stage-vm"
+    SERVER_HOST = "158.160.6.216"
+    SERVER_NAME = "jenkins"
     TOKEN = credentials('tg-token')
-    CHAT_ID = 641041957
+    CHAT_ID = 421829411
     PRJ_DIR = "/var/www/ecom"
-    GIT_URL = "git@github.com:AnastasiyaGapochkina01/dos-29-cicd_02.git"
+    GIT_URL = "git@github.com:TapAleksej/dos-29-cicd_02.git"
   }
 
   stages {
@@ -86,3 +86,4 @@ pipeline {
     }
   }
 }
+
