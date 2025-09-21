@@ -52,7 +52,7 @@ pipeline {
       }
       steps {
         script {
-          build quietPeriod: 5, wait: false, job: 'deploy', parameters: [string(name: 'DOCKER_IMAGE', value: "${env.REPO}:${env.PRJ_NAME}-${BUILD_NUMBER}")]
+          build quietPeriod: 5, wait: false, job: 'Jenkinsfile-deploy', parameters: [string(name: 'DOCKER_IMAGE', value: "${env.REPO}:${env.PRJ_NAME}-${BUILD_NUMBER}")]
         }
       }
     }
